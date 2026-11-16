@@ -1,4 +1,4 @@
-# [Feature Name] UX/UI Design Document
+# {{Feature Name}} UX/UI Design Document
 
 ## Metadata
 
@@ -8,8 +8,8 @@
 
 ## Design Decisions
 
-- [Design decision 1]
-- [Design decision 2]
+- {{Design decision 1}}
+- {{Design decision 2}}
 
 Example:
 
@@ -19,8 +19,8 @@ Example:
 
 ## User Experience
 
-- [User experience item 1]
-- [User experience item 2]
+- {{User experience item 1}}
+- {{User experience item 2}}
 
 Example:
 
@@ -33,7 +33,7 @@ Example:
 
 ### Add to Cart Modal
 
-![Add to Cart Modal](image.png)
+!{{Add to Cart Modal}}(image.png)
 
 ## Inspirations
 
@@ -50,8 +50,8 @@ Example:
 
 ## Open Ended Questions
 
-- [Open ended question 1]
-- [Open ended question 2]
+- {{Open ended question 1}}
+- {{Open ended question 2}}
 
 Example:
 

@@ -1,4 +1,4 @@
-# [Feature Name] Technical Requirements Document
+# {{Feature Name}} Technical Requirements Document
 
 ## Metadata
 
@@ -149,8 +149,8 @@ erDiagram
 
 ## Open Ended Questions
 
-- [Open ended question 1]
-- [Open ended question 2]
+- {{Open ended question 1}}
+- {{Open ended question 2}}
 
 Example:
 

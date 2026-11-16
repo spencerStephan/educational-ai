@@ -1,4 +1,4 @@
-# [Feature Name] Security Requirements Document
+# {{Feature Name}} Security Requirements Document
 
 ## Metadata
 
@@ -8,7 +8,7 @@
 
 ## Threats
 
-[What threats are there for this this feature?]
+{{What threats are there for this this feature?}}
 
 Example:
 
@@ -16,7 +16,7 @@ Example:
 
 ## Surface Area
 
-[What surfaces are affected by this feature?]
+{{What surfaces are affected by this feature?}}
 
 Example:
 
@@ -31,7 +31,7 @@ Example:
 
 ### Authentication
 
-[How is authentication handled for this feature?]
+{{How is authentication handled for this feature?}}
 
 Example:
 
@@ -39,7 +39,7 @@ Example:
 
 ### Authorization
 
-[How is authorization handled for this feature?]
+{{How is authorization handled for this feature?}}
 
 Example:
 
@@ -47,7 +47,7 @@ Example:
 
 ### Rate Limiting
 
-[How is rate limiting handled for this feature?]
+{{How is rate limiting handled for this feature?}}
 
 Example:
 
@@ -56,7 +56,7 @@ Example:
 
 ## Error Handling
 
-[How is error handling handled for this feature?]
+{{How is error handling handled for this feature?}}
 
 Example:
 
@@ -65,7 +65,7 @@ Example:
 
 ## Data Protection
 
-[How is data protected for this feature?]
+{{How is data protected for this feature?}}
 
 Example:
 
@@ -76,7 +76,7 @@ Example:
 
 ## Privacy
 
-[How is privacy handled for this feature?]
+{{How is privacy handled for this feature?}}
 
 Example:
 
@@ -89,7 +89,7 @@ Example:
 
 ## Logging
 
-[How is logging handled for this feature?]
+{{How is logging handled for this feature?}}
 
 Example:
 
@@ -97,7 +97,7 @@ Example:
 
 ## Monitoring
 
-[How is monitoring handled for this feature?]
+{{How is monitoring handled for this feature?}}
 
 Example:
 
@@ -111,7 +111,7 @@ Example:
 
 ## Compliance & Regulatory
 
-[Are there any compliance or regulatory requirements for this feature?]
+{{Are there any compliance or regulatory requirements for this feature?}}
 
 Example:
 
@@ -124,7 +124,7 @@ Example:
 
 ## Open Ended Questions
 
-[Open ended question 1]
+{{Open ended question 1}}
 
 Example:
 

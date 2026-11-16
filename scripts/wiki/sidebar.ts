@@ -70,7 +70,10 @@ const pageRank = (filename: string) => {
 };
 
 const readFeatureNames = async () => {
-	const entries = await fs.readdir(path.resolve("src/lib/features"), { withFileTypes: true });
+	const entries = await fs.readdir(path.resolve("src/lib/features"), { withFileTypes: true }).catch((error: { code?: string }) => {
+		if (error.code === "ENOENT") return [];
+		throw error;
+	});
 	return entries
 		.filter((entry) => entry.isDirectory())
 		.map((entry) => entry.name)

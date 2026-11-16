@@ -1,15 +1,15 @@
-# New Feature UX/UI Design Document
+# {{Feature Name}} UX/UI Design Document
 
 ## Metadata
 
-| Feature ID     | 49f021ca-a367-4c76-a378-635a2aaba342 |
+| Feature ID     | 3aded614-f2de-4dfe-b91f-895bd94e8309 |
 | -------------- | ------ |
 | Assignee Email |     |
 
 ## Design Decisions
 
-- [Design decision 1]
-- [Design decision 2]
+- {{Design decision 1}}
+- {{Design decision 2}}
 
 Example:
 
@@ -19,8 +19,8 @@ Example:
 
 ## User Experience
 
-- [User experience item 1]
-- [User experience item 2]
+- {{User experience item 1}}
+- {{User experience item 2}}
 
 Example:
 
@@ -33,7 +33,7 @@ Example:
 
 ### Add to Cart Modal
 
-![Add to Cart Modal](image.png)
+!{{Add to Cart Modal}}(image.png)
 
 ## Inspirations
 
@@ -50,8 +50,8 @@ Example:
 
 ## Open Ended Questions
 
-- [Open ended question 1]
-- [Open ended question 2]
+- {{Open ended question 1}}
+- {{Open ended question 2}}
 
 Example:
 

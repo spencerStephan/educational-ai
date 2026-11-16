@@ -1,8 +1,8 @@
-# New Feature Technical Requirements Document
+# {{Feature Name}} Technical Requirements Document
 
 ## Metadata
 
-| Feature ID     | 49f021ca-a367-4c76-a378-635a2aaba342 |
+| Feature ID     | 3aded614-f2de-4dfe-b91f-895bd94e8309 |
 | -------------- | ------ |
 | Assignee Email |        |
 
@@ -149,8 +149,8 @@ erDiagram
 
 ## Open Ended Questions
 
-- [Open ended question 1]
-- [Open ended question 2]
+- {{Open ended question 1}}
+- {{Open ended question 2}}
 
 Example:
 
