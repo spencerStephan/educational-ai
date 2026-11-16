@@ -2,9 +2,9 @@
 
 ## Metadata
 
-| ID             |     |
-| -------------- | --- |
-| Assignee Email |     |
+| Feature ID     | {{id}} |
+| -------------- | ------ |
+| Assignee Email |        |
 
 | Size                  | Estimate | Actual |
 | :-------------------- | :------- | :----- |

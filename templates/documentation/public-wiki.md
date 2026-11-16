@@ -2,8 +2,8 @@
 
 ## Metadata
 
-| Feature ID     |     |
-| -------------- | --- |
+| Feature ID     | {{id}} |
+| -------------- | ------ |
 | Assignee Email |     |
 
 Here is an example of a public wiki help page for purchasing a course. Feel free to add images, videos, or other media to help explain the feature.
