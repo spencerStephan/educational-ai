@@ -2,7 +2,6 @@ import fs from "fs/promises";
 import path from "path";
 
 const WIKI_ROOT = "educational-ai.wiki";
-const SKIP_DIRS = new Set([".git"]);
 const SKIP_FILES = new Set(["_Sidebar.md", "_Footer.md", "Home.md"]);
 
 const PAGE_ORDER = ["public-wiki", "feature-requirements", "ux-ui-design", "technical-requirements", "security-requirements"];
@@ -36,16 +35,13 @@ const readWikiBaseUrl = async () => {
 	return wikiBaseFromRemote(remote);
 };
 
-const pageUrl = (wikiBase: string, target: string) => {
-	const pathName = target
-		.replace(/^\//, "")
-		.split("/")
-		.map((segment) => encodeURIComponent(segment))
-		.join("/");
-	return `${wikiBase}/${pathName}`;
-};
+const pageUrl = (wikiBase: string, pageName: string) => `${wikiBase}/${encodeURIComponent(pageName)}`;
 
 const markdownLink = (label: string, url: string) => `[${label}](${url})`;
+
+const escapeHtml = (value: string) => value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+const htmlLink = (label: string, url: string) => `<a href="${escapeHtml(url)}">${escapeHtml(label)}</a>`;
 
 const labelFromSlug = (slug: string) => {
 	const known = PAGE_LABELS[slug];
@@ -73,84 +69,50 @@ const pageRank = (filename: string) => {
 	return index === -1 ? PAGE_ORDER.length : index;
 };
 
-type PageLink = {
-	label: string;
-	target: string;
-};
-
-type Section = {
-	name: string;
-	pages: PageLink[];
-	children: Section[];
-};
-
-const readSection = async (directory: string, name: string, targetPrefix: string): Promise<Section> => {
-	const entries = await fs.readdir(directory, { withFileTypes: true });
-	const files = entries
-		.filter((entry) => entry.isFile() && entry.name.endsWith(".md") && !SKIP_FILES.has(entry.name))
-		.sort((a, b) => pageRank(a.name) - pageRank(b.name) || a.name.localeCompare(b.name));
-	const directories = entries.filter((entry) => entry.isDirectory() && !SKIP_DIRS.has(entry.name)).sort((a, b) => a.name.localeCompare(b.name));
-
-	const children: Section[] = [];
-	for (const directoryEntry of directories) {
-		children.push(await readSection(path.join(directory, directoryEntry.name), directoryEntry.name, `${targetPrefix}${directoryEntry.name}/`));
-	}
-
-	return {
-		name,
-		pages: files.map((file) => {
-			const slug = file.name.replace(/\.md$/i, "");
-			return {
-				label: labelFromSlug(slug),
-				target: `${targetPrefix}${slug}`
-			};
-		}),
-		children
-	};
-};
-
-const sectionHasPages = (section: Section): boolean => section.pages.length > 0 || section.children.some(sectionHasPages);
-
-const renderSection = (section: Section, ancestors: string[], wikiBase: string): string[] => {
-	const lines: string[] = [];
-	const title = [...ancestors, labelFromSlug(section.name)].join(" / ");
-
-	if (section.pages.length > 0) {
-		lines.push(`**${title}**`, "");
-		for (const page of section.pages) {
-			lines.push(`- ${markdownLink(page.label, pageUrl(wikiBase, page.target))}`);
-		}
-		lines.push("");
-	}
-
-	for (const child of section.children) {
-		if (!sectionHasPages(child)) continue;
-		lines.push(...renderSection(child, [...ancestors, labelFromSlug(section.name)], wikiBase));
-	}
-
-	return lines;
+const readFeatureNames = async () => {
+	const entries = await fs.readdir(path.resolve("src/lib/features"), { withFileTypes: true });
+	return entries
+		.filter((entry) => entry.isDirectory())
+		.map((entry) => entry.name)
+		.sort((a, b) => b.length - a.length || a.localeCompare(b));
 };
 
 export async function updateSidebar() {
-	const entries = await fs.readdir(WIKI_ROOT, { withFileTypes: true });
-	const rootPages = entries
-		.filter((entry) => entry.isFile() && entry.name.endsWith(".md") && !SKIP_FILES.has(entry.name))
-		.sort((a, b) => pageRank(a.name) - pageRank(b.name) || a.name.localeCompare(b.name));
-	const folders = entries.filter((entry) => entry.isDirectory() && !SKIP_DIRS.has(entry.name)).sort((a, b) => a.name.localeCompare(b.name));
-
 	const wikiBase = await readWikiBaseUrl();
-	const lines = [markdownLink("Educational AI", pageUrl(wikiBase, "Home")), ""];
+	const featureNames = await readFeatureNames();
+	const entries = await fs.readdir(WIKI_ROOT, { withFileTypes: true });
+	const pages = entries.filter((entry) => entry.isFile() && entry.name.endsWith(".md") && !SKIP_FILES.has(entry.name)).map((entry) => entry.name);
+	const grouped = new Map<string, string[]>();
+	const loose: string[] = [];
 
-	for (const page of rootPages) {
-		const slug = page.name.replace(/\.md$/i, "");
+	for (const fileName of pages) {
+		const feature = featureNames.find((name) => fileName.startsWith(`${name}-`));
+		if (!feature) {
+			loose.push(fileName);
+			continue;
+		}
+		grouped.set(feature, [...(grouped.get(feature) ?? []), fileName]);
+	}
+
+	const lines = [markdownLink("Educational AI", pageUrl(wikiBase, "Home")), ""];
+	const loosePages = loose.sort((a, b) => pageRank(a) - pageRank(b) || a.localeCompare(b));
+
+	for (const fileName of loosePages) {
+		const slug = fileName.replace(/\.md$/i, "");
 		lines.push(`- ${markdownLink(labelFromSlug(slug), pageUrl(wikiBase, slug))}`);
 	}
-	if (rootPages.length > 0) lines.push("");
+	if (loosePages.length > 0) lines.push("");
 
-	for (const folder of folders) {
-		const section = await readSection(path.join(WIKI_ROOT, folder.name), folder.name, `/${folder.name}/`);
-		if (!sectionHasPages(section)) continue;
-		lines.push(...renderSection(section, [], wikiBase));
+	for (const feature of [...featureNames].sort((a, b) => a.localeCompare(b))) {
+		const files = grouped.get(feature);
+		if (!files?.length) continue;
+		files.sort((a, b) => pageRank(a.slice(feature.length + 1)) - pageRank(b.slice(feature.length + 1)) || a.localeCompare(b));
+		lines.push("<details>", `<summary>${escapeHtml(labelFromSlug(feature))}</summary>`, "<p>", "");
+		for (const fileName of files) {
+			const pageSlug = fileName.slice(feature.length + 1).replace(/\.md$/i, "");
+			lines.push(htmlLink(labelFromSlug(pageSlug), pageUrl(wikiBase, fileName.replace(/\.md$/i, ""))), "");
+		}
+		lines.push("</p>", "</details>", "");
 	}
 
 	await fs.writeFile(path.join(WIKI_ROOT, "_Sidebar.md"), `${lines.join("\n").trimEnd()}\n`);
