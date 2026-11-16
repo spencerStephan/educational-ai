@@ -2,8 +2,8 @@
 
 ## Metadata
 
-| Feature ID     |     |
-| -------------- | --- |
+| Feature ID     | {{id}} |
+| -------------- | ------ |
 | Assignee Email |     |
 
 ## Design Decisions

@@ -2,9 +2,9 @@
 
 ## Metadata
 
-| Feature ID     |     |
-| -------------- | --- |
-| Assignee Email |     |
+| Feature ID     | {{id}} |
+| -------------- | ------ |
+| Assignee Email |        |
 
 ## Services Used
 
